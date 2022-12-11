@@ -20,6 +20,7 @@ Password:<input type="password" name="userpass"/><br/><br/>
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Signup - TREND</title>
       <link rel="stylesheet" href="./static_files/style-signup.css">
    </head>

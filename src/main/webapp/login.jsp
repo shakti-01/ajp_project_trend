@@ -22,7 +22,8 @@ Password:<input type="password" name="userpass"/><br/><br/>
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>Login Form Design | CodeLab</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Login</title>
       <link rel="stylesheet" href="./static_files/style-login.css">
    </head>
    <body>

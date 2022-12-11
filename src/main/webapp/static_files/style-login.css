@@ -18,7 +18,7 @@ html,body{
   color: #fff;
 }
 .wrapper{
-  width: 380px;
+  width: 31vw;
   background: #fff;
   border-radius: 15px;
   box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
@@ -128,4 +128,15 @@ form .field input[type="submit"]:active{
 .pass-link a:hover,
 .signup-link a:hover{
   text-decoration: underline;
+}
+
+@media screen and (max-width: 850px){
+	.wrapper{
+		min-width:60vw !important;
+	}
+}
+@media screen and (max-width: 600px){
+	.wrapper{
+		min-width:80vw !important;
+	}
 }

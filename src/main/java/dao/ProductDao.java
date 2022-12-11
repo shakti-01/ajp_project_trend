@@ -1,6 +1,6 @@
 package dao;
 
-import dao.Product;
+//import dao.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -32,6 +32,33 @@ public class ProductDao {
 				prod_list.add(p);
 			}
 			System.out.println("Fetched products..");
+			
+			return prod_list;
+		 
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+			return prod_list;
+		}
+	}
+	
+	public List<Product> getFilterProds(String substr) throws ClassNotFoundException, SQLException {
+		List<Product> prod_list = new ArrayList<Product>();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+			
+			String sql = "select * from ajp_trend_prod where name like '%"+substr+"%'";
+			ResultSet rs=stmt.executeQuery(sql);
+			while(rs.next()){
+				Product p = new Product();
+				p.setName(rs.getString(1));
+				p.setPrice(rs.getFloat(2));
+				p.setSeller(rs.getString(3));
+				p.setRating(rs.getFloat(4));
+				prod_list.add(p);
+			}
+			System.out.println("Fetched search products..");
 			
 			return prod_list;
 		 
