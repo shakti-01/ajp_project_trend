@@ -67,4 +67,64 @@ public class ProductDao {
 			return prod_list;
 		}
 	}
+	
+	public void addOrder(String pname, String uname) throws ClassNotFoundException, SQLException {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+			
+			String sql = "INSERT INTO ajp_trend_order VALUES ('"+uname+"','"+pname+"')";
+			stmt.executeUpdate(sql);
+			
+			System.out.println("Order added to db..");
+		 
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeOrder(String pname, String uname) throws ClassNotFoundException, SQLException {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+			
+			String sql = "delete from ajp_trend_order where product='"+pname+"' and user_name='"+uname+"'";
+			stmt.executeUpdate(sql);
+			
+			System.out.println("Order removed from db..");
+		 
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Product> getOrderProds(String uname) throws ClassNotFoundException, SQLException {
+		List<Product> p_list = new ArrayList<Product>();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement stmt = conn.createStatement();
+			
+			String s = "select * from ajp_trend_prod p where p.name in "
+					+ "(select product from ajp_trend_order o where o.user_name = '"+uname+"')";
+			ResultSet res=stmt.executeQuery(s);
+			while(res.next()){
+				Product p = new Product();
+				p.setName(res.getString(1));
+				p.setPrice(res.getFloat(2));
+				p.setSeller(res.getString(3));
+				p.setRating(res.getFloat(4));
+				p_list.add(p);
+			}
+			System.out.println("Fetched products which were ordered");
+			
+			return p_list;
+		 
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+			return p_list;
+		}
+	}
 }

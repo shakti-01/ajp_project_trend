@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.*"%>
 <%@page import="dao.*" %>
-    
+
 <%
 String user = (String)request.getSession().getAttribute("user");
 if (user != null) {
@@ -12,62 +12,23 @@ else{
 	response.sendRedirect("login.jsp");
 }
 
-String substr = (String)request.getParameter("search-substr");
 ProductDao pd = new ProductDao();
-List<Product> prods;
-if(substr==null | substr==""){
-	prods = pd.getAllProds();
-}
-else{
-	prods = pd.getFilterProds(substr);
-}
+List<Product> prods = pd.getOrderProds(user);
+
+
 %>
+
 <!DOCTYPE html>
-<%-- <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Trend home</title>
-</head>
-<body>
-hi this home
-<%= request.getSession().getAttribute("user") %>
-<form action="logoutservlet" method="post">
-<input type="SUBMIT" value="LogOut">
-</form>
-<%
-	if (!prods.isEmpty()) {
-		for (Product p : prods) {
-%>
-		<div>
-			<p><%=p.getName() %></p>
-			<p><%=p.getPrice() %></p>
-			<p><%=p.getSeller() %></p>
-			<p><%=p.getRating() %></p>
-		</div>
-<%
-		}
-	} 
-	else out.println("There are no proucts...");
-	
-%>
-</body>
-</html>--%>
-
-
-
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TREND HOME</title>
+    <title>Orders - <%= request.getSession().getAttribute("user") %></title>
 
     <style>
         @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-
-        
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -93,10 +54,10 @@ hi this home
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="index.jsp">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="orders.jsp">Orders</a>
+                  <a class="nav-link" href="#">Orders </a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -122,12 +83,7 @@ hi this home
           </nav>
         <!-- -------------------------NAVBAR END  ------------------------------------------- -->
             </header>
-            <div class="search-div">
-            <form class="form-inline my-2 my-lg-0" action="index.jsp" method="GET">
-              <input class="form-control mr-sm-2 sbar" type="search" placeholder="Search" aria-label="Search" name="search-substr">
-              <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            </div>
+            
 
              <div class="banner">
                 <div class="wrapper">
@@ -146,7 +102,7 @@ hi this home
                             <i class="fas fa-star"><b class="rating"><%=p.getRating() %>/5</b></i>
                           </div>
                           <br>
-                          <a href="addproductservlet?pname=<%=p.getName() %>"><button class="btn btn-primary">order it</button></a>
+                          <a href="removeproductservlet?pname=<%=p.getName() %>"><button class="btn btn-danger">remove it</button></a>
                         </div>
                       </div>
                     </div>

@@ -20,6 +20,7 @@ public class logoutservlet extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			if(request.getSession().getAttribute("user")!=null) {
 				request.getSession().removeAttribute("user");
+				System.out.println("Logged out..");
 				response.sendRedirect("login.jsp");
 			}else {
 				response.sendRedirect("index.jsp");

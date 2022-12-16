@@ -29,15 +29,17 @@ Password:<input type="password" name="userpass"/><br/><br/>
          <div class="title">
             Signup Form
          </div>
-         <form action="signupservlet" method="POST">
+         <form action="signupservlet" method="POST" onsubmit="return validate();">
             <div class="field">
-               <input type="text" name="username" required>
+               <input type="text" name="username" id="usern" required>
                <label>Username</label>
             </div>
             <div class="field">
-               <input type="password" name="userpass" required>
+               <input type="password" name="userpass" id="userp" required>
                <label>Password</label>
             </div>
+            	<p style="margin-top:1em; color:grey;"><small>*Min length of user name is 4<br>
+            	*Min password length is 4 with 1 number</small></p>
             
             <div class="field">
                <input type="submit" value="Signup">
@@ -47,5 +49,22 @@ Password:<input type="password" name="userpass"/><br/><br/>
                Already member? <a href="login.jsp">Login now</a>
             </div>
       </div>
+      <script>
+      function validate(){
+    	  let username = document.getElementById("usern").value;
+    	  let password = document.getElementById("userp").value;
+    	  if (!username || !password) {
+    	    return false;
+    	  }
+    	  if (username.length < 4) {
+    	    return false;
+    	  }
+    	  if (password.length < 4 || !/\d/.test(password)) {
+    	    return false;
+    	  }
+			console.log("ac created");
+    	  return true;
+      }
+      </script>
    </body>
 </html>
